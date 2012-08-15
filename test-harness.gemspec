@@ -27,7 +27,8 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/test_harness.rb",
     "spec/spec_helper.rb",
-    "spec/test_harness_spec.rb"
+    "spec/test_harness_spec.rb",
+    "test-harness.gemspec"
   ]
   s.homepage = "http://github.com/gmhawash/test_harness"
   s.licenses = ["MIT"]
