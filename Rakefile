@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "test_harness"
+  gem.name = "test-harness"
   gem.homepage = "http://github.com/gmhawash/test_harness"
   gem.license = "MIT"
   gem.summary = %Q{Mini test harness for rspec and cucumber}
