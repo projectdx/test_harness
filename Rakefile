@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/gmhawash/test_harness"
   gem.license = "MIT"
   gem.summary = %Q{Mini test harness for rspec and cucumber}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.description = %Q{A test harness for rspec and cucumber which allows for separating responsibility between setting up the context and interacting with the browser, and cleaning up the step definition files.}
   gem.email = "gmhawash@gmail.com"
   gem.authors = ["Maher Hawash"]
   # dependencies defined in Gemfile
