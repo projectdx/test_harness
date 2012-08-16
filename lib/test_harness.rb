@@ -1,5 +1,6 @@
 require 'given'
 require 'ui_component'
+require 'configuration'
 
 class TestHarness
   class << self
