@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maher Hawash"]
-  s.date = "2012-08-15"
+  s.date = "2012-08-16"
   s.description = "A test harness for rspec and cucumber which allows for separating responsibility between setting up the context and interacting with the browser, and cleaning up the step definition files."
   s.email = "gmhawash@gmail.com"
   s.extra_rdoc_files = [
