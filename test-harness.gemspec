@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "test-harness"
-  s.version = "0.3.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maher Hawash"]
-  s.date = "2012-08-17"
+  s.date = "2012-08-23"
   s.description = "A test harness for rspec and cucumber which allows for separating responsibility between setting up the context and interacting with the browser, and cleaning up the step definition files."
   s.email = "gmhawash@gmail.com"
   s.extra_rdoc_files = [
@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/gmhawash/test_harness"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.15"
+  s.rubygems_version = "1.8.24"
   s.summary = "Mini test harness for rspec and cucumber"
 
   if s.respond_to? :specification_version then
