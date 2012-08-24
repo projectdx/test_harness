@@ -1,3 +1,5 @@
+require 'configuration'
+
 class TestHarness
   class << self
     def configuration
@@ -45,7 +47,6 @@ require 'ui_helper'
 
 require 'ui_component'
 require 'ui_component_helper'
-require 'configuration'
 require 'ui_driver'
 require 'ui_view'
 require 'mental_model'
