@@ -1,7 +1,7 @@
 class TestHarness
   class UIHelper
     def self.register_ui_components
-      Dir.glob(Rails.root.join('app', 'test_harness', 'ui/*.rb')).each do |file|
+      Dir.glob(Rails.root.join(TestHarness.autoload_path, 'ui/*.rb')).each do |file|
         component =  File.basename(file, '.rb')
         require "ui/#{component}"
         klass = ("TestHarness::%s::%s" % [component.camelize, self.name.split('::').last]).constantize

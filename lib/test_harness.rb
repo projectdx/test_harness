@@ -24,6 +24,10 @@ class TestHarness
       @mm ||= TestHarness::MentalModel.new
     end
 
+    def autoload_path
+      @path = Configuration.autoload_path || 'test_harness'
+    end
+
     def register_instance_option(scope, option_name, default_value = nil)
       scope.send(:define_method, option_name) do |*args, &block|
         if !args[0].nil? || block
