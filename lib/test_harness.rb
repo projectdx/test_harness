@@ -25,7 +25,7 @@ class TestHarness
     end
 
     def autoload_path
-      @path = Configuration.autoload_path || 'test_harness'
+      @path ||= configuration.autoload_path || 'test_harness'
     end
 
     def register_instance_option(scope, option_name, default_value = nil)
