@@ -28,10 +28,9 @@ and defined classes as discussed below.
 
 ## Cucumber DSL Example
 
-1. Feature steps should be abstract at a level high enough for customer or product manager to easily understand.
 
-
-### features/some_test.feature
+### 1. features/some_test.feature
+Feature steps should be abstract at a level high enough for customer or product manager to easily understand.
 
     Feature: Login feature
     Scenario: Login
@@ -40,13 +39,13 @@ and defined classes as discussed below.
       Then I am logged in
 
 
+
+### 2. features/step_definitions/login_step.rb
 Step definition should also be at a high level void of most details, and easy to follow for the developer.  It is
 best to keep each step to few lines of code (3 is a good max).  Notice the syntax of the assertions 'should be_something.
 
+Test Harness provides four objects that you can use in a step definition, three of them you can use here (**given, uid, uiv**), and hopefully the fourth one (**mm** - for Mental Model) you only need to use within the test harness artifacts.
 
-Test Harness provides four objects that you can use in a step definition, three of them you can use here (<strong>given, uid, uiv</strong>), and hopefully the fourth one (mm - for Mental Model) you only need to use within the test harness artifacts.
-
-### features/step_definitions/login_step.rb
     Given /^a user$/ do
       given.a_user
     end
@@ -59,7 +58,22 @@ Test Harness provides four objects that you can use in a step definition, three 
       uiv.login_form.should be_logged_in
     end
 
-### test_harness/given/login.rb
+### 3. test_harness/given/login.rb
+The **given/** folder holds the objects which performs the setup for the test.  It is preferred that
+you assign a single responsibility for each file to make it easy to follow and understand.
+
+Notice that the file name is significant in this folder where the file name is used to autoload a class
+of the camlized format (file_name looks for class FileName)
+
+#### Mental Model
+The **mm** object is visible through out the test components, and is used to hold objects needed during the test.  Typically,
+the **given** drive sets up the database or any other required setup, and assigns needed objects into the Mental Model **mm** 
+object.  Since the **mm** object is an OpenStruct, you can freely add any new attributes by simply assigning them values.
+(e.g., mm.whatever = WhatEver.create 'somethng', 'or', 'another')
+
+The **mm.subject** is a special attribute of the Mental Model (**mm**).  It's attribute (e.g., _id_) are used to 
+build the (url's) path of the component under test.  You can assign 
+
     class TestHarness
       class Given
         module Login
@@ -70,7 +84,30 @@ Test Harness provides four objects that you can use in a step definition, three 
       end
     end
 
-### test_harness/ui/login</em>form.rb
+### 4. test_harness/ui/login_form.rb
+The UI drivers are used to communicate with the browser.  The UID (UI Driver) is used for driving the browser
+(*Do the clicking*) and the UIV (UI View) driver does the inspection (*Do the looking*).  This separation of
+responsibilities  makes it easier to figure out where to expect code.  
+
+Notice that the file name is significant in this folder where the file name is used to autoload a class
+of the camlized format (file_name looks for class FileName).  The filename is further used in the step 
+definition file to refer to this component under test.
+
+Ideally, a single web page could be divided into multiple UI components.  For example, on a login page, there
+is a form which could be a single component, and there could be a header which could be a separate component, and
+a footer would be a separate component.
+
+#### component block
+This block allows you to group constants, procs, and whatever else you might need for testing this component.  You
+can assign any attributes to the component block which will be available in the UIDriver and UIView classes below.
+
+The **path, within** attributes are special:  
+
+1. **path**: is used by the uid#show method to automatically show that path.  You can have symbols within this string,
+  e.g., c.path = "/application/:group/:id".  The :group and :id symbols will be replaced from the special **mm.subject**
+  object, and hence, the **mm.subject** must respond to mm.subject.id, and mm.subject.group.
+
+2. **within**: is used to limit the search for any CSS elements to the children of this css identifier.
     require "ui_component"
     class TestHarness
       class LoginForm &lt; TestHarness::UIComponent
@@ -82,25 +119,25 @@ Test Harness provides four objects that you can use in a step definition, three 
           c.submit = 'input[name=commit]'
         end
 
-    class UIView
-      def logged_in?
-        browser.current_url == index_url # check truth about being logged in
-      end
-    end
+        class UIView
+          def logged_in?
+            browser.current_url == index_url # check truth about being logged in
+          end
+        end
 
-    class UIDriver
-      def submit_valid_credentials
-        fill_in component.username, :with => mm.subject.username
-        fill_in component.password, :with => mm.subject.password
-        submit
-      end
+        class UIDriver
+          def submit_valid_credentials
+            fill_in component.username, :with => mm.subject.username
+            fill_in component.password, :with => mm.subject.password
+            submit
+          end
 
-      def submit
-        find(:css, component.submit).click
+          def submit
+            find(:css, component.submit).click
+          end
+        end
       end
-    end
-  end
-end  
+    end  
 
 ## Contributing to test_harness
 
