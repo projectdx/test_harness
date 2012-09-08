@@ -38,10 +38,12 @@ class TestHarness
       visit component_path
     end
 
-    def component_path
-      component.path.gsub(/:\w+/) {|match| mm.subject.send(match.tr(':',''))}
-    end
-
+    # Used to submit elements set by the *form* method
+    # In the UIDriver, you can use:
+    #   form.username = 'user@email.com'
+    #   form.password = 'password'
+    #   submit!
+    #
     def submit!
       form_hash.each do |k,v|
         fill_in k.to_s, :with => v
@@ -54,15 +56,24 @@ class TestHarness
       end
     end
 
-    def form_hash
-      form.instance_variable_get("@table")
-    end
-
+    # Used to set form elements for submittal by the method submit!
+    # In the UIDriver, you can use:
+    #   form.username = 'user@email.com'
+    #   form.password = 'password'
+    #   submit!
     def form
       @form ||= OpenStruct.new
     end
 
     private
+    def form_hash
+      form.instance_variable_get("@table")
+    end
+
+    def component_path
+      component.path.gsub(/:\w+/) {|match| mm.subject.send(match.tr(':',''))}
+    end
+
     # @private
     # (Not really private, but YARD seemingly lacks RDoc's :nodoc tag, and the
     # semantics here don't differ from Object#respond_to?)
