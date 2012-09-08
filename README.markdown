@@ -151,41 +151,41 @@ which perfom actions in the browser.
 
 
 ## Cucumber Setup
-In the feature/support/setup_test_harness.rb
+In the **feature/support/setup_test_harness.rb**
 
-require 'thwait'
-require 'test_harness'
-require 'spec/factories'  # if you use factories
+    require 'thwait'
+    require 'test_harness'
+    require 'spec/factories'  # if you use factories
 
 ** autoload_path**: Allows you to set the path where test_harness files are found.  Putting them in the
 Rails.root/app folder proves problematic as they get autoloaded in production.  However, depending on how
 you setup you Gemfile, the test-harness gem might be excluded, and the server will fail to load.
 
-TestHarness.configure do |c|
-  c.browser = Capybara
-  c.autoload_path = Rails.root.join('test_harness')
-end
+    TestHarness.configure do |c|
+      c.browser = Capybara
+      c.autoload_path = Rails.root.join('test_harness')
+    end
 
-World(TestHarness::TestHelper)
+    World(TestHarness::TestHelper)
 
-Capybara.server_port = 33399
-Capybara.run_server = false
-Capybara.default_host = 'http://localhost'
+    Capybara.server_port = 33399
+    Capybara.run_server = false
+    Capybara.default_host = 'http://localhost'
 
-# This is supposed to allow Selenium to wait until ajax requests are finished
-Before do
-  page.driver.options[:resynchronize] = true
-end
+    # This is supposed to allow Selenium to wait until ajax requests are finished
+    Before do
+      page.driver.options[:resynchronize] = true
+    end
 
-@rack_server_pid = fork do
-  Capybara::Server.new(Hummingbird::Application).boot
-  ThreadsWait.all_waits(Thread.list)
-end
+    @rack_server_pid = fork do
+      Capybara::Server.new(Hummingbird::Application).boot
+      ThreadsWait.all_waits(Thread.list)
+    end
 
-at_exit do
-  Process.kill(9, @rack_server_pid)
-  Process.wait
-end
+    at_exit do
+      Process.kill(9, @rack_server_pid)
+      Process.wait
+    end
 
 ## Contributing to test_harness
 
