@@ -97,7 +97,7 @@ Ideally, a single web page could be divided into multiple UI components.  For ex
 is a form which could be a single component, and there could be a header which could be a separate component, and
 a footer would be a separate component.
 
-#### component block
+#### I. component block
 This block allows you to group constants, procs, and whatever else you might need for testing this component.  You
 can assign any attributes to the component block which will be available in the UIDriver and UIView classes below.
 
@@ -108,6 +108,16 @@ The **path, within** attributes are special:
   object, and hence, the **mm.subject** must respond to mm.subject.id, and mm.subject.group.
 
 2. **within**: is used to limit the search for any CSS elements to the children of this css identifier.
+
+#### II. UIView block
+UIView objects **Do the looking**.  Use this block to define methods used by the **uiv** object in the step definitions.  These typically 
+respond with a true/false for a **should** assertion (e.g., uiv.login_form.should be_logged_in, will corropsond to method 
+UIView#logged_in? in the ui/login_form.rb)
+
+#### III. UIDriver block
+UIDriver objects **Do the clicking**.  Use this block to define methods used by the **uid** object in the step definitions.  These typically are verbs
+which perfom actions in the browser.  
+
     require "ui_component"
     class TestHarness
       class LoginForm &lt; TestHarness::UIComponent
@@ -138,6 +148,44 @@ The **path, within** attributes are special:
         end
       end
     end  
+
+
+## Cucumber Setup
+In the feature/support/setup_test_harness.rb
+
+require 'thwait'
+require 'test_harness'
+require 'spec/factories'  # if you use factories
+
+** autoload_path**: Allows you to set the path where test_harness files are found.  Putting them in the
+Rails.root/app folder proves problematic as they get autoloaded in production.  However, depending on how
+you setup you Gemfile, the test-harness gem might be excluded, and the server will fail to load.
+
+TestHarness.configure do |c|
+  c.browser = Capybara
+  c.autoload_path = Rails.root.join('test_harness')
+end
+
+World(TestHarness::TestHelper)
+
+Capybara.server_port = 33399
+Capybara.run_server = false
+Capybara.default_host = 'http://localhost'
+
+# This is supposed to allow Selenium to wait until ajax requests are finished
+Before do
+  page.driver.options[:resynchronize] = true
+end
+
+@rack_server_pid = fork do
+  Capybara::Server.new(Hummingbird::Application).boot
+  ThreadsWait.all_waits(Thread.list)
+end
+
+at_exit do
+  Process.kill(9, @rack_server_pid)
+  Process.wait
+end
 
 ## Contributing to test_harness
 
