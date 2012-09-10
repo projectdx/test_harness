@@ -42,11 +42,14 @@ class TestHarness
     # In the UIDriver, you can use:
     #   form.username = 'user@email.com'
     #   form.password = 'password'
+    #   form.yes = true    # for checkbox
+    #   form.radio1 = true # for radio button
+    #
     #   submit!
     #
     def submit!
       form_hash.each do |k,v|
-        fill_in k.to_s, :with => v
+        find_field(k.to_s).set v
       end
 
       if has_css?(locator = component.submit)
