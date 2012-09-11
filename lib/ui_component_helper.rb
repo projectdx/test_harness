@@ -53,7 +53,8 @@ class TestHarness
     #
     def submit!
       form_hash.each do |k,v|
-        find_field(k.to_s).set v
+        field = find_field(k.to_s)
+        field[:type] =~ /^select/ ? field.select(v) : field.set(v)
       end
 
       if has_css?(locator = component.submit)
