@@ -10,6 +10,11 @@ class TestHarness
       yield configuration
     end
 
+    def reset
+      @mm = nil
+      registered_components.each(&:reset)
+    end
+
     def given
       @given ||= TestHarness::Given.new
     end
@@ -30,7 +35,12 @@ class TestHarness
       @path ||= configuration.autoload_path || 'test_harness'
     end
 
+    def registered_components
+      @components ||= []
+    end
+
     def register_instance_option(scope, option_name, default_value = nil)
+      registered_components << default_value
       scope.send(:define_method, option_name) do |*args, &block|
         if !args[0].nil? || block
           instance_variable_set("@#{option_name}_registered", args[0].nil? ? block : args[0])

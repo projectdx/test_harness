@@ -4,6 +4,10 @@ class TestHarness
       self.class.parent.component
     end
 
+    def reset
+      @form = nil
+    end
+
     # If the UIComponent is sent a message it does not understand, it will
     # forward that message on to its {#browser} but wrap the call in a block
     # provided to the the browser's `#within` method. This provides convenient
@@ -73,6 +77,7 @@ class TestHarness
       form.instance_variable_get("@table")
     end
 
+    private
     def component_path
       component.path.gsub(/:\w+/) {|match| mm.subject.send(match.tr(':',''))}
     end
