@@ -7,6 +7,11 @@ require 'test_harness'
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+TestHarness.configure do |c|
+  c.namespace = 'FakeHarness'
+  c.autoload_path = File.expand_path('../fake_harness', __FILE__)
+end
+
 RSpec.configure do |config|
   
 end

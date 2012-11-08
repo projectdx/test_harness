@@ -1,9 +1,16 @@
 require 'configuration'
+require 'utilities'
 
 class TestHarness
   class << self
     def configuration
-      @configuation ||= Configuration.new
+      @configuration ||= Configuration.new
+    end
+
+    def autoload
+      TestHarness::Given.autoload
+      TestHarness::UIView.autoload
+      TestHarness::UIDriver.autoload
     end
 
     def configure(&block)
@@ -35,18 +42,19 @@ class TestHarness
       @path ||= configuration.autoload_path || 'test_harness'
     end
 
+    def namespace
+      @namespace ||= configuration.namespace || 'TestHarness'
+    end
+
     def registered_components
       @components ||= []
     end
 
-    def register_instance_option(scope, option_name, default_value = nil)
-      registered_components << default_value
-      scope.send(:define_method, option_name) do |*args, &block|
-        if !args[0].nil? || block
-          instance_variable_set("@#{option_name}_registered", args[0].nil? ? block : args[0])
-        else
-          instance_variable_get("@#{option_name}_registered") || default_value || yield
-        end
+    def register_instance_option(scope, option_name, instance)
+      return if registered_components.any? { |c| c.is_a? instance.class }
+      registered_components << instance
+      scope.send(:define_method, option_name) do
+        instance
       end
     end
   end

@@ -13,7 +13,7 @@ Or add to your Gemfile:
     end
 
 ## Structure
-    Rails.root/
+    /
       test_harness/
          /given
          /ui
@@ -157,13 +157,17 @@ In the **feature/support/setup_test_harness.rb**
     require 'test_harness'
     require 'spec/factories'  # if you use factories
 
-** autoload_path**: Allows you to set the path where test_harness files are found.  Putting them in the
+**autoload_path**: Allows you to set the path where test_harness files are found.  Putting them in the
 Rails.root/app folder proves problematic as they get autoloaded in production.  However, depending on how
-you setup you Gemfile, the test-harness gem might be excluded, and the server will fail to load.
+you setup you Gemfile, the test-harness gem might be excluded, and the server will fail to load.  Defaults to 'test_harness'.
+
+**namespace**: Sets the class namespace for your test_harness files.  Specify
+this as a string, not a constant.  Defaults to 'TestHarness'.
 
     TestHarness.configure do |c|
       c.browser = Capybara
       c.autoload_path = Rails.root.join('test_harness')
+      c.namespace = 'MyHarness'
     end
 
     World(TestHarness::TestHelper)

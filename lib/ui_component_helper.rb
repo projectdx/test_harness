@@ -1,5 +1,9 @@
 class TestHarness
   module UIComponentHelper
+    def mm
+      TestHarness.mm
+    end
+
     def component
       self.class.parent.component
     end

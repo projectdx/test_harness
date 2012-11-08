@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class TestHarness
   class MentalModel < OpenStruct
 

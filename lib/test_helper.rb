@@ -1,6 +1,12 @@
 class TestHarness
   module TestHelper
-    delegate :configuration, :given, :uiv, :uid, :mm, :to => TestHarness
+    def method_missing(method, *args)
+      if [:configuration, :given, :uiv, :uid, :mm, :to].include?(method)
+        TestHarness.send(method)
+      else
+        super
+      end
+    end
 
     def browser
       configuration.browser
