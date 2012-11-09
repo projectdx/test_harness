@@ -35,8 +35,7 @@ Gem::Specification.new do |s|
     "lib/ui_driver.rb",
     "lib/ui_helper.rb",
     "lib/ui_view.rb",
-    "spec/spec_helper.rb",
-    "spec/test_harness_spec.rb",
+    "lib/utilities.rb",
     "test-harness.gemspec"
   ]
   s.homepage = "http://github.com/gmhawash/test_harness"
