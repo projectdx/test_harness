@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "test-harness"
-  s.version = "0.4.6"
+  s.version = "0.4.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maher Hawash"]
-  s.date = "2012-09-11"
+  s.date = "2012-11-15"
   s.description = "A test harness for rspec and cucumber which allows for separating responsibility between setting up the context and interacting with the browser, and cleaning up the step definition files."
   s.email = "gmhawash@gmail.com"
   s.extra_rdoc_files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     ".rspec",
+    ".watchr",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
@@ -36,6 +37,14 @@ Gem::Specification.new do |s|
     "lib/ui_helper.rb",
     "lib/ui_view.rb",
     "lib/utilities.rb",
+    "spec/fake_harness/given/given_test.rb",
+    "spec/fake_harness/ui/ui_test.rb",
+    "spec/lib/given_spec.rb",
+    "spec/lib/test_harness_spec.rb",
+    "spec/lib/test_helper_spec.rb",
+    "spec/lib/ui_component_helper_spec.rb",
+    "spec/lib/utilities_spec.rb",
+    "spec/spec_helper.rb",
     "test-harness.gemspec"
   ]
   s.homepage = "http://github.com/gmhawash/test_harness"
