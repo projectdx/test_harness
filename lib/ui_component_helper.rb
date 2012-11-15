@@ -1,3 +1,5 @@
+class MissingConfiguration < Exception; end
+
 class TestHarness
   module UIComponentHelper
     def mm
@@ -13,13 +15,14 @@ class TestHarness
     end
 
     def configuration
-      raise 'TestHarness.configuration  must be defined' unless TestHarness.configuration.present?
       TestHarness.configuration
     end
 
     def browser
-      raise 'TestHarness.browser must be defined' unless configuration.browser.present?
-      configuration.browser
+      @browser ||= begin
+        raise MissingConfiguration.new('TestHarness.browser must be defined') if configuration.browser.nil?
+        configuration.browser
+       end
     end
 
     # If the UIComponent is sent a message it does not understand, it will
