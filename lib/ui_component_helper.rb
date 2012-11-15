@@ -12,6 +12,16 @@ class TestHarness
       @form = nil
     end
 
+    def configuration
+      raise 'TestHarness.configuration  must be defined' unless TestHarness.configuration.present?
+      TestHarness.configuration
+    end
+
+    def browser
+      raise 'TestHarness.browser must be defined' unless configuration.browser.present?
+      configuration.browser
+    end
+
     # If the UIComponent is sent a message it does not understand, it will
     # forward that message on to its {#browser} but wrap the call in a block
     # provided to the the browser's `#within` method. This provides convenient
