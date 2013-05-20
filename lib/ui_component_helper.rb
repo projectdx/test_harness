@@ -7,7 +7,8 @@ class TestHarness
     end
 
     def component
-      self.class.parent.component
+      parent_class = TestHarness::Utilities.get_parent_class(self.class)
+      parent_class ? parent_class.component : nil
     end
 
     def reset

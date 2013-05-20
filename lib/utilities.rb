@@ -17,5 +17,10 @@ class TestHarness
       end
       constant
     end
+
+    def get_parent_class(klass)
+      parent_class_name = klass.name =~ /::[^:]+\Z/ ? $`.freeze : nil
+      parent_class_name ? constantize(parent_class_name) : Object
+    end
   end
 end
