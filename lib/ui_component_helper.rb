@@ -98,7 +98,13 @@ class TestHarness
 
     private
     def component_path
-      component.path.gsub(/:\w+/) {|match| mm.subject.send(match.tr(':',''))}
+      component.path.gsub(/:\w+/) do |match|
+        if mm.subject.is_a? Hash
+          mm.subject[match.tr(':','')]
+        else
+          mm.subject.send(match.tr(':',''))
+        end
+      end
     end
 
     # @private
