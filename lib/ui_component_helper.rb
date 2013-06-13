@@ -98,11 +98,20 @@ class TestHarness
 
     private
     def component_path
-      component.path.gsub(/:\w+/) do |match|
-        if mm.subject.is_a? Hash
-          mm.subject[match.tr(':','')]
-        else
-          mm.subject.send(match.tr(':',''))
+      case path = component.path
+      when Proc then path.call(mm)
+      else
+        path.gsub(/:\w+/) do |match|
+          token = match.tr(':', '')
+          if mm.subject.is_a? Hash
+            mm.subject.with_indifferent_access[token]
+          elsif mm.subject.respond_to? token.to_sym
+            mm.subject.send(token)
+          elsif mm.respond_to? token.to_sym
+            mm.send(token)
+          elsif mm.respond_to? token.tr('_id', '')
+            mm.send(token.tr('_id', '')).id
+          end
         end
       end
     end

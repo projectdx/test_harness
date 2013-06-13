@@ -11,4 +11,6 @@ group :development do
   gem "bundler"
   gem "jeweler"
   gem 'gemcutter'
+  gem 'activesupport'
+  gem 'debugger'
 end

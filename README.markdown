@@ -103,9 +103,14 @@ can assign any attributes to the component block which will be available in the 
 
 The **path, within** attributes are special:  
 
-1. **path**: is used by the uid#show method to automatically show that path.  You can have symbols within this string,
-  e.g., c.path = "/application/:group/:id".  The :group and :id symbols will be replaced from the special **mm.subject**
-  object, and hence, the **mm.subject** must respond to mm.subject.id, and mm.subject.group.
+1. **path**: is used by the uid#show method to construct the url that it navigates to.  You have few options:
+	a. *String*:  ```component.path = 'widgets/:widget_id'```, TestHarness will look for :widget_id in few places as follows:
+		* mm.subject.widget_id,
+		* mm.subject[:widget_id] *(if mm.subject is a Hash)*
+		* mm.widget_id,
+		* mm.widget.id
+
+	b. *Proc*: ```component.path = lambda {|mm| 'widges/are/%s' % mm.whatever}```
 
 2. **within**: is used to limit the search for any CSS elements to the children of this css identifier.
 
