@@ -103,8 +103,8 @@ class TestHarness
       else
         path.gsub(/:\w+/) do |match|
           token = match.tr(':', '')
-          if mm.subject.is_a? Hash
-            mm.subject.with_indifferent_access[token]
+          if mm.subject.is_a?(Hash) && (field_value = mm.subject.with_indifferent_access[token])
+            field_value
           elsif mm.subject.respond_to? token.to_sym
             mm.subject.send(token)
           elsif mm.respond_to? token.to_sym
