@@ -1,5 +1,7 @@
 # Test Harness
 
+[![Build Status](https://travis-ci.org/projectdx/test_harness.png)](https://travis-ci.org/projectdx/test_harness)
+
 Test Harness is a testing framework which allows for clean separation of test responsibilities.
 
 ## Installation
