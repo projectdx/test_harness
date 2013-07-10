@@ -14,5 +14,4 @@ group :development, :test do
   gem "jeweler"
   gem 'gemcutter'
   gem 'activesupport'
-  gem 'debugger'
 end
