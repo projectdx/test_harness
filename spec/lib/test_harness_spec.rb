@@ -14,7 +14,10 @@ describe TestHarness do
       TestHarness.autoload
 
       defined?(FakeHarness::Given::GivenTest).should be_true
-      [FakeHarness::UiTest::UIView, FakeHarness::UiTest::UIDriver].each do |kl|
+      defined?(FakeHarness::Given::Dandylions::GivenTest).should be_true
+      [FakeHarness::UiTest::UIView, FakeHarness::UiTest::UIDriver,
+        FakeHarness::Dandylions::UiTest::UIView,
+        FakeHarness::Dandylions::UiTest::UIDriver].each do |kl|
         TestHarness.registered_components.map(&:class).should include(kl)
       end
     end

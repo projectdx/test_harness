@@ -22,5 +22,13 @@ class TestHarness
       parent_class_name = klass.name =~ /::[^:]+\Z/ ? $`.freeze : nil
       parent_class_name ? constantize(parent_class_name) : Object
     end
+
+    def register_components(component_type)
+      Dir.glob(File.join(TestHarness.autoload_path, "#{component_type}/**/**.rb")).each do |file|
+        component = file.sub(TestHarness.autoload_path, '').sub(/^\/?#{component_type}\//, '').sub(/\.rb$/, '')
+        require file
+        yield component if block_given?
+      end
+    end
   end
 end
