@@ -51,7 +51,7 @@ class TestHarness
     end
 
     def register_instance_option(scope, option_name, instance)
-      return if registered_components.any? { |c| c.is_a? instance.class }
+      return if registered_components.any? { |c| c.class.name == instance.class.name }
       registered_components << instance
       scope.send(:define_method, option_name.gsub('/', '_')) do
         instance

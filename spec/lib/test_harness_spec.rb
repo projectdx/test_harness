@@ -17,7 +17,9 @@ describe TestHarness do
       defined?(FakeHarness::Given::Dandylions::GivenTest).should be_true
       [FakeHarness::UiTest::UIView, FakeHarness::UiTest::UIDriver,
         FakeHarness::Dandylions::UiTest::UIView,
-        FakeHarness::Dandylions::UiTest::UIDriver].each do |kl|
+        FakeHarness::Dandylions::UiTest::UIDriver,
+        FakeHarness::Dandylions::InheritedUiTest::UIView,
+        FakeHarness::Dandylions::InheritedUiTest::UIDriver].each do |kl|
         TestHarness.registered_components.map(&:class).should include(kl)
       end
     end
