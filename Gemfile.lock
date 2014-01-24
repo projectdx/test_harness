@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     test-harness (0.5.1)
+      test-harness
 
 GEM
   remote: http://rubygems.org/
