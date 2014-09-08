@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    test-harness (0.5.1)
+    test-harness (0.5.2)
       test-harness
 
 GEM
