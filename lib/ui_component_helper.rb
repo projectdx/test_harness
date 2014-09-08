@@ -32,7 +32,7 @@ class TestHarness
     # access to the browser driver's DSL, automatically scoped to this
     # component.
     def method_missing(name, *args, &block)
-      if respond_to?(name)
+      if browser.respond_to?(name)
         browser.within(component.within) do
           browser.send(name, *args, &block)
         end
@@ -114,13 +114,6 @@ class TestHarness
           end
         end
       end
-    end
-
-    # @private
-    # (Not really private, but YARD seemingly lacks RDoc's :nodoc tag, and the
-    # semantics here don't differ from Object#respond_to?)
-    def respond_to?(name)
-      super || browser.respond_to?(name)
     end
 
     def server_host
